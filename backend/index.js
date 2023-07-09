@@ -25,20 +25,20 @@ app.post('/upload', upload.single('video'), async (req, res) => {
     const height = 1920;
     
     if (id == 'opcion1') { //redimensionar
-        const outPutFilePath = __dirname+`/downloads/reels${Date.now()}.mp4`;
-        const clipOutPutFilePath = __dirname+`/downloads/history${Date.now()}.mp4`;
-        const vr= await redimensionarVideo(videoPath,outPutFilePath,width,height);
-        await realizarClip(vr,clipOutPutFilePath);
+        const outPutFilePath = `./src/uploads/reels${Date.now()}.mp4`;
+        const clipOutPutFilePath = `./src/uploads/history${Date.now()}.mp4`;
+        await redimensionarVideo(videoPath,outPutFilePath,width,height);
+        await realizarClip(clipOutPutFilePath,clipOutPutFilePath);
     } else if (id == 'opcion2' ) {//calidad de video
         const outPutFilePath = __dirname+`/downloads/reels${Date.now()}.mp4`;
         const clipOutPutFilePath = __dirname+`/downloads/history${Date.now()}.mp4`;
         const cv= await calidadVideo(videoPath,outPutFilePath);
         await realizarClip(cv,clipOutPutFilePath);
 
-    } else if (id = 'opcion3') {//mejorar audio
+    } else if (id == 'opcion3') {//mejorar audio
         const outPutFilePath = __dirname+`/downloads/reels${Date.now()}.mp4`;
         const clipOutPutFilePath = __dirname+`/downloads/history${Date.now()}.mp4`;
-        const ma=await procesamientoVideo(videoPath,outPutFilePath,outTikTokFilePath,width,height);
+        await procesamientoVideo(videoPath,outPutFilePath,outTikTokFilePath,width,height);
         await realizarClip(ma,clipOutPutFilePath);
 
     }
@@ -74,13 +74,24 @@ app.post('/upload', upload.single('video'), async (req, res) => {
     }else {
         console.log('seleccione una opcion')
     }
+    res.send(outPutFilePath, 'video_editado.mp4', (err) => {
+      if (err) {
+        console.error('Error al enviar el video como descarga:', err);
+      } else {
+        // Elimina el archivo después de enviarlo
+        fs.unlink(outPutFilePath, (err) => {
+          if (err) {
+            console.error('Error al eliminar el archivo:', err);
+          }
+        });
+      }
+    });
 });
 
 async function redimensionarVideo(rutaIn, rutaOut, width, height) {
     await new Promise(() => {
         ffmpeg(rutaIn)
             .size(`${width}x${height}`)
-            
             .output(rutaOut)
             .on('end', () => {
                 console.log('Redimensionamiento completado');
@@ -135,7 +146,7 @@ async function realizarClip(rutaIn,rutaOut){
       console.log('Clip extraído exitosamente.');
 }
 
-/*async function procesamientoVideo(videoPathF, rutaInF, rutaPublicar, widthF, heightF){
+async function procesamientoVideo(videoPathF, rutaInF, rutaPublicar, widthF, heightF){
     try {
         await redimensionarVideo(videoPathF, rutaInF, widthF, heightF);
 
@@ -146,7 +157,7 @@ async function realizarClip(rutaIn,rutaOut){
         console.log(e);
         res.status(500).json({ error: 'Error al procesar o publicar el video.' })
     }
-}*/
+}
 
 app.listen(4000, () => {
     console.log('Servidor en http://localhost:4000');
