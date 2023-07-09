@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+  <header>
+    <div class="header-left">
+      <h1>Publifyer</h1>
+    </div>
+    <div class="header-right">
+      <ul class="menu">
+        <li><a href="#">Soporte</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <div class="content">
+    <section class="left-section">
+      <h2>Sección izquierda</h2>
+      <form>
+        <h2>Red Social:</h2>
+        <p>Selecciona una o más opciones:</p>
+        <input type="checkbox" id="opcion1" name="opciones" value="opcion1">
+        <label for="opcion1">Facebook (Post)</label><br>
+        <input type="checkbox" id="opcion2" name="opciones" value="opcion2">
+        <label for="opcion2">Instagram (Storie)</label><br>
+        <input type="checkbox" id="opcion3" name="opciones" value="opcion3">
+        <label for="opcion3">Instagram (Post)</label><br>
+        <input type="checkbox" id="opcion4" name="opciones" value="opcion4">
+        <label for="opcion4">Tik Tok</label><br>
+        <br>
+        <input type="submit" value="Enviar">
+      </form>
+    </section>
+
+    <section class="center-section">
+      <h2>Video</h2>
+      <div class="video-upload-container">
+        <label for="video-upload" class="video-upload-label"></label>
+        <input type="file" id="video-upload" accept="video/*">
+      </div>
+      <div class="video-player-container" id="video-player-container">
+        <video id="video-player" controls></video>
+      </div>
+    </section>
+
+    <section class="right-section">
+      <h2>Contenido de publicación: </h2>
+      <div class="input-container">
+        <input type="text" id="inputText" name="inputText">
+      </div>
+      <h2>Hashtags sugeridos:</h2>
+
+    </section>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
+
